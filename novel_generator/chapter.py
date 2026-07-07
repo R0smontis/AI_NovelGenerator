@@ -50,7 +50,8 @@ def summarize_recent_chapters(
     novel_number: int,            # 新增参数
     chapter_info: dict,           # 新增参数
     next_chapter_info: dict,      # 新增参数
-    timeout: int = 600
+    timeout: int = 600,
+    user_guidance: str = ""
 ) -> str:  # 修改返回值类型为 str，不再是 tuple
     """
     根据前三章内容生成当前章节的精准摘要。
@@ -86,18 +87,13 @@ def summarize_recent_chapters(
             chapter_title=chapter_info.get("chapter_title", "未命名"),
             chapter_role=chapter_info.get("chapter_role", "常规章节"),
             chapter_purpose=chapter_info.get("chapter_purpose", "内容推进"),
-            suspense_level=chapter_info.get("suspense_level", "中等"),
-            foreshadowing=chapter_info.get("foreshadowing", "无"),
-            plot_twist_level=chapter_info.get("plot_twist_level", "★☆☆☆☆"),
             chapter_summary=chapter_info.get("chapter_summary", ""),
             next_chapter_number=novel_number + 1,
             next_chapter_title=next_chapter_info.get("chapter_title", "（未命名）"),
             next_chapter_role=next_chapter_info.get("chapter_role", "过渡章节"),
             next_chapter_purpose=next_chapter_info.get("chapter_purpose", "承上启下"),
             next_chapter_summary=next_chapter_info.get("chapter_summary", "衔接过渡内容"),
-            next_chapter_suspense_level=next_chapter_info.get("suspense_level", "中等"),
-            next_chapter_foreshadowing=next_chapter_info.get("foreshadowing", "无特殊伏笔"),
-            next_chapter_plot_twist_level=next_chapter_info.get("plot_twist_level", "★☆☆☆☆")
+            user_guidance=user_guidance
         )
         
         response_text = invoke_with_cleaning(llm_adapter, prompt)
@@ -382,7 +378,8 @@ def build_chapter_prompt(
             novel_number=novel_number,
             chapter_info=chapter_info,
             next_chapter_info=next_chapter_info,
-            timeout=timeout
+            timeout=timeout,
+            user_guidance=user_guidance
         )
         logging.info("Summary generated successfully")
     except Exception as e:

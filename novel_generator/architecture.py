@@ -161,7 +161,8 @@ def Novel_architecture_generate(
             core_seed=partial_data["core_seed_result"].strip(),
             character_dynamics=partial_data["character_dynamics_result"].strip(),
             world_building=partial_data["world_building_result"].strip(),
-            user_guidance=user_guidance  # 修复：添加用户指导
+            user_guidance=user_guidance,
+            number_of_chapters=number_of_chapters
         )
         plot_arch_result = invoke_with_cleaning(llm_adapter, prompt_plot)
         if not plot_arch_result.strip():
